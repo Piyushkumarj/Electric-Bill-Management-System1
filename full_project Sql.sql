@@ -1,12 +1,14 @@
-DROP TABLE COMPLAINT;
-DROP TABLE TRANSACTIONS;
-DROP TABLE BILL;
-DROP TABLE BOARD;
-DROP TABLE CUSTOMERS;
-
+DROP TABLE IF EXISTS COMPLAINT;
+DROP TABLE IF EXISTS TRANSACTIONS;
+DROP TABLE IF EXISTS BILL;
+DROP TABLE IF EXISTS BOARD;
+DROP TABLE IF EXISTS CUSTOMERS;
+DROP DATABASE IF EXISTS BILL_GENERATER;
+CREATE DATABASE IF NOT EXISTS BILL_GENERATER;
+USE BILL_GENERATER;
 --LAB 01:
 
-CREATE TABLE CUSTOMERS(
+CREATE TABLE if not exists CUSTOMERS(
     CUST_ID INTEGER PRIMARY KEY,
     C_NAME VARCHAR(10),
     EMAIL VARCHAR(20) unique, --lab 03 (using unique key constraints)
@@ -14,7 +16,7 @@ CREATE TABLE CUSTOMERS(
     ADDRESS VARCHAR(20)
 );
 
-CREATE TABLE BILL(
+CREATE TABLE if not exists BILL(
     BILL_ID INTEGER PRIMARY KEY,
     AMOUNT INTEGER,
     STAT VARCHAR(15),
@@ -22,7 +24,7 @@ CREATE TABLE BILL(
     FOREIGN KEY (CUST_ID) references CUSTOMERS(CUST_ID)
 );
 
-CREATE TABLE BOARD(
+CREATE TABLE if not exists BOARD(
   BOARD_ID INTEGER PRIMARY KEY,
   BOARD_NAME VARCHAR(25) NOT NULL,
   ADDRESS VARCHAR(40) unique,
@@ -31,7 +33,7 @@ CREATE TABLE BOARD(
   PASS VARCHAR(5) NOT NULL  
 );
 
-CREATE TABLE TRANSACTIONS(
+CREATE TABLE if not exists TRANSACTIONS(
 	T_ID INTEGER PRIMARY KEY,
 	DATE_PAY VARCHAR(10) NOT NULL,
 	PAYABLE VARCHAR(15) NOT NULL,
@@ -39,7 +41,7 @@ CREATE TABLE TRANSACTIONS(
   FOREIGN KEY (BILL_ID) references BILL(BILL_ID)
 );
 
-CREATE TABLE COMPLAINT(
+CREATE TABLE if not exists COMPLAINT(
   COM_ID INTEGER NOT NULL,
   CUST_ID INTEGER NOT NULL,
   BOARD_ID INTEGER,
@@ -49,79 +51,94 @@ CREATE TABLE COMPLAINT(
 );
 --------------------------------------------------
 --inserting data into CUSTOMERS table
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (1, 'Ameen Khan', 'ameen@gmail.com', 'qwerty', 'Rangamati');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (2, 'Abhishek', 'abhishek@gmail.com', 'qwerty', 'Ghaziabad');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (3, 'Anzal', 'anzal@gmail.com', 'qwerty', 'Noakhali');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (4, 'Manaf', 'manaf@gmail.com', 'qwerty', 'Ashugonj');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (5, 'abc', 'abc@gmail.com', 'qwerty', 'Kishoreganj');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (6, 'xyz', 'xyz@gmail.com','qwerty', 'Dhaka');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (7, 'akshit', 'akshit@gmail.com', 'qwerty', 'Dhaka');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (8, 'akshita', 'akshita@gmail.com', 'qwerty', 'Bandarbon');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (9, 'nakshit', 'nakshit@gmail.com', 'qwerty', 'Chittagong');
-INSERT INTO CUSTOMERS (CUST_ID, C_NAME, EMAIL, PASS, ADDRESS) VALUES (10, 'shita', 'shita@gmail.com', 'qwerty', 'Tangail');
+INSERT INTO CUSTOMERS 
+(CUST_ID, C_NAME, EMAIL, PASS, ADDRESS)
+ VALUES 
+ (1, 'Ameen Khan', 'ameen@gmail.com', 'qwerty', 'Rangamati'),
+ (2, 'Abhishek', 'abhishek@gmail.com', 'qwerty', 'Ghaziabad'),
+ (3, 'Anzal', 'anzal@gmail.com', 'qwerty', 'Noakhali'),
+ (4, 'Manaf', 'manaf@gmail.com', 'qwerty', 'Ashugonj'),
+ (5, 'abc', 'abc@gmail.com', 'qwerty', 'Kishoreganj'),
+ (6, 'xyz', 'xyz@gmail.com','qwerty', 'Dhaka'),
+ (7, 'akshit', 'akshit@gmail.com', 'qwerty', 'Dhaka'),
+ (8, 'akshita', 'akshita@gmail.com', 'qwerty', 'Bandarbon'),
+  (9, 'nakshit', 'nakshit@gmail.com', 'qwerty', 'Chittagong'),
+ (10, 'shita', 'shita@gmail.com', 'qwerty', 'Tangail');
 
 --showing table data
 SELECT * FROM CUSTOMERS;
 
 --inserting data into BILL table
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (101, 1000, 'PAID', 1);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (102, 2000, 'PAID', 4);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (103, 3000, 'NOT PAID', 4);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (104, 4000, 'PAID', 4);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (105, 5000, 'NOT PAID', 4);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (106, 6000, 'NOT PAID', 6);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (107, 7000, 'PAID', 6);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (108, 8000, 'NOT PAID', 8);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (109, 9000, 'PAID', 9);
-INSERT INTO BILL (BILL_ID, AMOUNT, STAT, CUST_ID) VALUES (110, 1100, 'NOT PAID', 10);
+INSERT INTO BILL
+ (BILL_ID, AMOUNT, STAT, CUST_ID)
+ VALUES 
+(101, 1000, 'PAID', 1),
+(102, 2000, 'PAID', 4),
+(103, 3000, 'NOT PAID', 4),
+(104, 4000, 'PAID', 4),
+(105, 5000, 'NOT PAID', 4),
+(106, 6000, 'NOT PAID', 6),
+(107, 7000, 'PAID', 6),
+(108, 8000, 'NOT PAID', 8),
+(109, 9000, 'PAID', 9),
+(110, 1100, 'NOT PAID', 10);
 
 --showing table data
 SELECT * FROM BILL;
 
 --inserting data into electricity table
 
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(1,'Agrabad SD','Agrabad Industrial Area,Chittagong','xenagra.ctg@bpdb.gov.bd','01755583007','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(2,'Ashugonj SD','Ashugonj','xenbpdbashugonj@gmail.com','01841121245','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(3,'Bajitput SD','Bajitpur,Kishoreganj','rebajitpur@bpdb.gov.bd','01755581377','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(4,'Bakalia SD','Syed Shah Road,Chittagong','xenbak.ctg@bpdb.gov.bd','01755583005','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(5,'Bandarbon Distributin','Bandarbon,Hilltrac District','xenban.ctg@bpdb.gov.bd','01755583035','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(6,'Barobkundu SD','Shetakundu,Chittagong','xenbarob.ctg@bpdb.gov.bd','01755583014','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(7,'Basurhar Electricity','Companiganj,Noakhali','bpdbasurhat@yahoo.com','01841121252','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(8,'Betbuniya Electricity','Betbuniya,Kawkhaly,Rangamati','rebetbunia@yahoo.com','01755583027','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(9,'Bhairab SD','Bhairab,Kishoreganj','xen_bpdb.bhairb@yahoo.com','01755581383','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(10,'Bhuapur SD','Bhuapur,Tangail','bhuapursnd@gmail.com','01755581389','SUL');
-INSERT INTO BOARD(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) VALUES(11,'INDI SD','Bhuapur,India','snd@gmail.com','01755581399','SUL');
+INSERT INTO BOARD
+(BOARD_ID, BOARD_NAME, ADDRESS, MAIL, CONTACT, PASS) 
+VALUES
+(1,'Agrabad SD','Agrabad Industrial Area,Chittagong','xenagra.ctg@bpdb.gov.bd','01755583007','SUL'),
+(2,'Ashugonj SD','Ashugonj','xenbpdbashugonj@gmail.com','01841121245','SUL'),
+(3,'Bajitput SD','Bajitpur,Kishoreganj','rebajitpur@bpdb.gov.bd','01755581377','SUL'),
+(4,'Bakalia SD','Syed Shah Road,Chittagong','xenbak.ctg@bpdb.gov.bd','01755583005','SUL'),
+(5,'Bandarbon Distributin','Bandarbon,Hilltrac District','xenban.ctg@bpdb.gov.bd','01755583035','SUL'),
+(6,'Barobkundu SD','Shetakundu,Chittagong','xenbarob.ctg@bpdb.gov.bd','01755583014','SUL'),
+(7,'Basurhar Electricity','Companiganj,Noakhali','bpdbasurhat@yahoo.com','01841121252','SUL'),
+(8,'Betbuniya Electricity','Betbuniya,Kawkhaly,Rangamati','rebetbunia@yahoo.com','01755583027','SUL'),
+(9,'Bhairab SD','Bhairab,Kishoreganj','xen_bpdb.bhairb@yahoo.com','01755581383','SUL'),
+(10,'Bhuapur SD','Bhuapur,Tangail','bhuapursnd@gmail.com','01755581389','SUL'),
+(11,'INDI SD','Bhuapur,India','snd@gmail.com','01755581399','SUL');
 --showing table data
 SELECT * FROM BOARD;
 
 --inseting data into TRANSACTIONS table
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(1, '22-05-2000','PROCESSED',101);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(2, '22-06-2000','PROCESSED',102);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(3, '22-07-2000','PROCESSED',103);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(4, '22-05-2020','PROCESSED',104);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(5, '22-12-2000','PROCESSED',105);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(6, '20-05-2000','PROCESSED',106);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(7, '30-05-2000','PROCESSED',107);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(8, '22-05-2000','PROCESSED',108);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(9, '14-05-2010','PROCESSED',109);
-INSERT INTO TRANSACTIONS (T_ID, DATE_PAY, PAYABLE, BILL_ID) VALUES(10, '02-01-2012','PROCESSED',110);
+INSERT INTO TRANSACTIONS
+ (T_ID, DATE_PAY, PAYABLE, BILL_ID) 
+ VALUES
+ (1, '22-05-2000','PROCESSED',101),
+(2, '22-06-2000','PROCESSED',102),
+(3, '22-07-2000','PROCESSED',103),
+(4, '22-05-2020','PROCESSED',104),
+(5, '22-12-2000','PROCESSED',105),
+(6, '20-05-2000','PROCESSED',106),
+(7, '30-05-2000','PROCESSED',107),
+(8, '22-05-2000','PROCESSED',108),
+(9, '14-05-2010','PROCESSED',109),
+(10, '02-01-2012','PROCESSED',110);
 
 --showing table data
 SELECT * FROM TRANSACTIONS;
 
 --inserting data into COMPLAINTtable
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (1, 1, 1, 'Transaction Not Processed','PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (2, 1, 1, 'Transaction Not Processed', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (3, 2, 1, 'Complaint Not Processed', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (4, 2, 1, 'Transaction Not Processed', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, COM, STAT) VALUES (5, 2, 'Transaction Not Processed', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (6, 1, 1, 'BILL Not Correct', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (7, 3, 1, 'BILL Not Correct', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (8, 3, 2, 'Transaction Not Processed', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, COM, STAT) VALUES (9, 4, 'Transaction Not Processed', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (10, 4, 1, 'BILL Not Correct', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (11, 5, 2, 'BILL Generated Late', 'PROCESSED');
-INSERT INTO COMPLAINT(COM_ID, CUST_ID, BOARD_ID, COM, STAT) VALUES (12, 1, 1, 'BILL Not Correct', 'NOT PROCESSED');
+INSERT INTO COMPLAINT
+(COM_ID, CUST_ID, BOARD_ID, COM, STAT)
+ VALUES
+ (1, 1, 1, 'Transaction Not Processed','PROCESSED'),
+ (2, 1, 1, 'Transaction Not Processed', 'PROCESSED'),
+ (3, 2, 1, 'Complaint Not Processed', 'PROCESSED'),
+ (4, 2, 1, 'Transaction Not Processed', 'PROCESSED'),
+(5, 2, 'Transaction Not Processed', 'PROCESSED'),
+(6, 1, 1, 'BILL Not Correct', 'PROCESSED'),
+(7, 3, 1, 'BILL Not Correct', 'PROCESSED'),
+(8, 3, 2, 'Transaction Not Processed', 'PROCESSED'),
+(9, 4, 'Transaction Not Processed', 'PROCESSED'),
+ (10, 4, 1, 'BILL Not Correct', 'PROCESSED'),
+ (11, 5, 2, 'BILL Generated Late', 'PROCESSED'),
+ (12, 1, 1, 'BILL Not Correct', 'NOT PROCESSED');
 
 
 --showing table data
